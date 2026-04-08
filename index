@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Estudos — Inteligência Artificial I</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@300;400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181b24;
+    --surface2: #1f2330;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --text: #e4e6ed;
+    --text-muted: #8b8fa3;
+    --border: #2a2e3d;
+    --code-bg: #141720;
+    --warning: #ffb347;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #1a1d2e 0%, #0f1117 50%, #151828 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 20px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(108,99,255,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 50%, rgba(0,212,170,0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .hero .subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  .hero .version-badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 14px;
+    background: rgba(0,212,170,0.15);
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: var(--accent2);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 50px;
+  }
+
+  .toc h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent2);
+    margin-bottom: 20px;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+  }
+
+  .toc-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 8px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+
+  .toc-item:hover {
+    border-color: var(--accent);
+    background: rgba(108,99,255,0.1);
+  }
+
+  .toc-item.new-tag::after {
+    content: 'NOVO';
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: var(--accent3);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: auto;
+  }
+
+  .toc-num {
+    background: var(--accent);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section {
+    margin-bottom: 60px;
+    scroll-margin-top: 30px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .section-number {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .section h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--accent2);
+    margin: 28px 0 12px;
+    padding-left: 14px;
+    border-left: 3px solid var(--accent2);
+  }
+
+  .section h4 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 20px 0 8px;
+  }
+
+  p { margin-bottom: 14px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+
+  .card.highlight { border-left: 4px solid var(--accent); }
+  .card.warning { border-left: 4px solid var(--warning); }
+  .card.important { border-left: 4px solid var(--accent3); background: rgba(255,107,107,0.05); }
+  .card.success { border-left: 4px solid var(--accent2); background: rgba(0,212,170,0.05); }
+
+  .card-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .card.highlight .card-title { color: var(--accent); }
+  .card.warning .card-title { color: var(--warning); }
+  .card.important .card-title { color: var(--accent3); }
+  .card.success .card-title { color: var(--accent2); }
+
+  .formula {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--accent2);
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--code-bg);
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: var(--accent2);
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px;
+    margin: 14px 0;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  pre .comment { color: var(--text-muted); }
+  pre .keyword { color: var(--accent); }
+  pre .string { color: var(--accent2); }
+  pre .number { color: var(--accent3); }
+
+  ul, ol { padding-left: 24px; margin-bottom: 14px; }
+  li { margin-bottom: 6px; }
+
+  .table-wrapper { overflow-x: auto; margin: 16px 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  th {
+    background: var(--surface2);
+    color: var(--accent);
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tr:hover td { background: rgba(108,99,255,0.04); }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-purple { background: rgba(108,99,255,0.2); color: var(--accent); }
+  .badge-green { background: rgba(0,212,170,0.2); color: var(--accent2); }
+  .badge-red { background: rgba(255,107,107,0.2); color: var(--accent3); }
+  .badge-yellow { background: rgba(255,179,71,0.2); color: var(--warning); }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  strong { color: #fff; }
+
+  .step-flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 16px 0;
+  }
+
+  .step-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 120px;
+  }
+
+  .step-arrow {
+    color: var(--accent2);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+  }
+
+  .comparison-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .comparison-card h4 {
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+
+  .comparison-card .emoji {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+
+  .calc-step {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    padding: 12px 16px;
+    margin: 8px 0;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.95rem;
+  }
+
+  .calc-step .step-label {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .toc-grid { grid-template-columns: 1fr; }
+    .section h2 { font-size: 1.4rem; }
+    .container { padding: 24px 16px; }
+    .comparison-grid { grid-template-columns: 1fr; }
+    .step-flow { flex-direction: column; }
+    .step-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Guia de Estudos — Inteligência Artificial I</h1>
+  <p class="subtitle">Prof. Dr. Jhonatan Alves · UNIVALI · Aulas 1, 2 e 3 · Preparação para M1</p>
+  <span class="version-badge">v2.0 — Completo com Aula 2</span>
+</div>
+
+<div class="container">
+
+  <!-- TABLE OF CONTENTS -->
+  <div class="toc">
+    <h2>📋 Índice</h2>
+    <div class="toc-grid">
+      <a href="#s1" class="toc-item"><span class="toc-num">1</span> O que é IA + História</a>
+      <a href="#s2" class="toc-item"><span class="toc-num">2</span> Fundamentos Biológicos</a>
+      <a href="#s3" class="toc-item"><span class="toc-num">3</span> O Perceptron</a>
+      <a href="#s4" class="toc-item"><span class="toc-num">4</span> Aprendizagem Supervisionada</a>
+      <a href="#s5" class="toc-item new-tag"><span class="toc-num">5</span> MLP e Redes Multicamadas</a>
+      <a href="#s6" class="toc-item new-tag"><span class="toc-num">6</span> Funções de Ativação</a>
+      <a href="#s7" class="toc-item new-tag"><span class="toc-num">7</span> Feedforward, Backprop &amp; Gradiente</a>
+      <a href="#s8" class="toc-item new-tag"><span class="toc-num">8</span> Convergência e Estratégias</a>
+      <a href="#s9" class="toc-item"><span class="toc-num">9</span> Keras na Prática</a>
+      <a href="#s10" class="toc-item new-tag"><span class="toc-num">10</span> Exercícios Resolvidos (Completo)</a>
+      <a href="#s11" class="toc-item"><span class="toc-num">11</span> Dicas para a Prova</a>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section" id="s1">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <h2>O que é IA + História</h2>
+    </div>
+
+    <h3>Definição</h3>
+    <p>A <strong>Inteligência Artificial</strong> é uma área da ciência da computação que busca desenvolver sistemas capazes de realizar tarefas que normalmente exigiriam inteligência humana: reconhecimento de padrões, aprendizado a partir de dados, tomada de decisões, interpretação de linguagem e percepção visual.</p>
+
+    <h3>Marco Histórico: Conferência de Dartmouth (1956)</h3>
+    <div class="card highlight">
+      <div class="card-title">Conceito-chave</div>
+      <p>O termo "Inteligência Artificial" foi formalizado em <strong>1956</strong>, na <strong>Conferência de Dartmouth</strong> (EUA). Pesquisadores propuseram estudar como máquinas poderiam aprender, raciocinar e resolver problemas. Esse é considerado o <strong>nascimento da IA como área científica</strong>.</p>
+    </div>
+
+    <h3>Evolução da IA</h3>
+    <ul>
+      <li><strong>1950–1970:</strong> Primeiras pesquisas e modelos iniciais</li>
+      <li><strong>1970–1980:</strong> Período de menor avanço ("inverno da IA")</li>
+      <li><strong>1980–2000:</strong> Sistemas especialistas e novas técnicas</li>
+      <li><strong>2000–presente:</strong> Crescimento acelerado com aprendizado de máquina e redes neurais</li>
+    </ul>
+
+    <h3>IA Bioinspirada</h3>
+    <p>Paradigmas onde a <strong>natureza é usada como inspiração</strong> para técnicas computacionais: Algoritmos Evolucionários (Genéticos, Programação Genética), Inteligência Coletiva (Colônias de Formigas, PSO), Redes Neurais (MLP, RBF, SOM, ARTMap) e Sistemas Imunológicos Artificiais.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 2 -->
+  <div class="section" id="s2">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <h2>Fundamentos Biológicos</h2>
+    </div>
+
+    <h3>O Neurônio Biológico</h3>
+    <div class="card highlight">
+      <div class="card-title">Estrutura do Neurônio</div>
+      <ul>
+        <li><strong>Dendritos:</strong> Parte receptora — onde chegam os impulsos nervosos (ENTRADAS)</li>
+        <li><strong>Corpo celular (Soma):</strong> Responsável pela integração dos impulsos (PROCESSAMENTO)</li>
+        <li><strong>Axônio:</strong> Prolongamento por onde se transmite o impulso nervoso (SAÍDA)</li>
+      </ul>
+    </div>
+
+    <h3>Sinapse</h3>
+    <p>Os neurônios <strong>não estão fisicamente conectados</strong>. A área onde ocorre a transmissão do impulso é chamada de <strong>sinapse</strong>, constituída por: membrana pré-sináptica, fenda sináptica e membrana pós-sináptica.</p>
+
+    <h3>Potencial de Ação — Lei do Tudo ou Nada</h3>
+    <div class="card important">
+      <div class="card-title">Conceito Fundamental</div>
+      <p>Neurônios ficam normalmente em <strong>repouso</strong> (≈ −60 a −70 mV). Diversos sinais chegam pelas sinapses — alguns <strong>excitam</strong>, outros <strong>inibem</strong>. O neurônio integra todos os estímulos. Se o total ultrapassar o <strong>limiar de −55 mV</strong>, ocorre o <strong>potencial de ação</strong> (disparo). Caso contrário, nada acontece. Isso é a <strong>Lei do Tudo ou Nada</strong>.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 3 -->
+  <div class="section" id="s3">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <h2>O Perceptron</h2>
+    </div>
+
+    <h3>O que é?</h3>
+    <p>O Perceptron é um <strong>modelo matemático</strong> que descreve o comportamento de um neurônio natural. É o <strong>neurônio artificial</strong> mais básico.</p>
+
+    <h3>Componentes do Perceptron</h3>
+    <div class="card highlight">
+      <div class="card-title">Analogia Biológica → Artificial</div>
+      <ul>
+        <li><strong>Entradas (x₁, x₂, ..., xₘ)</strong> → Dendritos</li>
+        <li><strong>Pesos (w₁, w₂, ..., wₘ)</strong> → Força da sinapse</li>
+        <li><strong>Junção somadora (Σ)</strong> → Corpo celular</li>
+        <li><strong>Bias (b)</strong> → Limiar de ativação</li>
+        <li><strong>Função de ativação f(u)</strong> → Decisão de disparo</li>
+        <li><strong>Saída (y)</strong> → Axônio</li>
+      </ul>
+    </div>
+
+    <h3>Fórmula da Soma Ponderada</h3>
+    <div class="formula">u = w₁·x₁ + w₂·x₂ + ... + wₘ·xₘ + b</div>
+
+    <h3>Separabilidade Linear</h3>
+    <p>O Perceptron resolve apenas problemas <strong>linearmente separáveis</strong> — onde uma reta (ou hiperplano) consegue dividir os dados em duas classes. Exemplos que funcionam: AND, OR. Exemplo que <strong>não</strong> funciona: XOR.</p>
+
+    <div class="card important">
+      <div class="card-title">⚠ Limitação Clássica — XOR</div>
+      <p>O Perceptron <strong>NÃO consegue</strong> aprender a porta XOR porque os pontos de classes diferentes estão "cruzados" no espaço — nenhuma reta consegue dividi-los. Ao representar no plano, vemos que (0,0)→0, (0,1)→1, (1,0)→1, (1,1)→0 formam um padrão impossível de separar com uma única reta. Esse problema levou ao desenvolvimento do <strong>MLP</strong>.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 4 -->
+  <div class="section" id="s4">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <h2>Aprendizagem Supervisionada</h2>
+    </div>
+
+    <h3>Conceito</h3>
+    <p>O modelo aprende a partir de <strong>exemplos rotulados</strong>. Cada exemplo possui: <strong>entradas</strong> (características) e <strong>saída desejada</strong> (classe correta). O objetivo é aprender uma função que relacione entradas com a saída correta.</p>
+
+    <h3>Algoritmo de Treinamento do Perceptron</h3>
+    <ol>
+      <li><strong>Obter</strong> o conjunto de treinamento</li>
+      <li><strong>Inicializar</strong> pesos com valores pequenos</li>
+      <li><strong>Escolher</strong> a taxa de aprendizagem η (0 &lt; η &lt; 1)</li>
+      <li><strong>Repetir</strong> até convergir:
+        <ul>
+          <li>Calcular soma ponderada: <code>u = Σ wᵢxᵢ</code></li>
+          <li>Aplicar função de ativação: <code>y = f(u)</code></li>
+          <li>Calcular erro: <code>e = d − y</code></li>
+          <li>Atualizar pesos: <code>wᵢ ← wᵢ + η · e · xᵢ</code></li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 5 — EXPANDED WITH AULA 2 -->
+  <div class="section" id="s5">
+    <div class="section-header">
+      <div class="section-number">5</div>
+      <h2>MLP — Perceptron de Múltiplas Camadas</h2>
+    </div>
+
+    <h3>Por que precisamos de MLP?</h3>
+    <p>O perceptron simples só resolve problemas linearmente separáveis. Para problemas como XOR, precisamos de algo mais poderoso: <strong>múltiplos neurônios organizados em camadas</strong>. Essa estrutura permite construir fronteiras de decisão mais complexas (não-lineares).</p>
+
+    <h3>Estrutura do MLP</h3>
+    <div class="card highlight">
+      <div class="card-title">Três tipos de camada</div>
+      <ul>
+        <li><strong>Camada de entrada:</strong> recebe os dados do problema (não faz processamento)</li>
+        <li><strong>Camada(s) oculta(s) (hidden layers):</strong> realizam transformações intermediárias nos dados — são o "cérebro" da rede</li>
+        <li><strong>Camada de saída:</strong> produz o resultado final da rede</li>
+      </ul>
+    </div>
+
+    <p>Cada neurônio possui: uma <strong>junção somadora</strong> (Σ) que calcula a soma ponderada e uma <strong>função de ativação</strong> (f) que decide a saída. Cada conexão entre camadas possui um <strong>peso</strong>.</p>
+
+    <h3>Contagem de Pesos</h3>
+    <div class="card success">
+      <div class="card-title">Regra Prática</div>
+      <p>Pesos entre duas camadas = <strong>neurônios da camada anterior × neurônios da camada seguinte</strong>.</p>
+      <p>Exemplo: 2 entradas → 3 ocultos → 1 saída</p>
+      <ul>
+        <li>Entrada → Oculta: 2 × 3 = <strong>6 pesos</strong></li>
+        <li>Oculta → Saída: 3 × 1 = <strong>3 pesos</strong></li>
+        <li>Total: <strong>9 pesos</strong> (sem contar bias)</li>
+      </ul>
+      <p>Essa rede possui <strong>3 camadas</strong> (entrada, oculta e saída).</p>
+    </div>
+
+    <h3>Intuição Geométrica — Como o MLP resolve o XOR?</h3>
+    <p>Cada neurônio em uma camada oculta pode aprender <strong>uma fronteira linear</strong> (uma reta). Combinando várias dessas fronteiras lineares, a rede consegue construir <strong>fronteiras de decisão não lineares</strong>. É como usar várias retas para "recortar" o espaço de maneiras complexas.</p>
+
+    <div class="card warning">
+      <div class="card-title">💡 Analogia</div>
+      <p>Imagine que cada neurônio oculto é um "classificador simples" que traça uma reta. O neurônio de saída então <strong>combina</strong> essas classificações simples para formar uma decisão complexa. No XOR, por exemplo, dois neurônios ocultos traçam duas retas, e o neurônio de saída combina as duas decisões para separar corretamente os pontos.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 6 — EXPANDED WITH AULA 2 -->
+  <div class="section" id="s6">
+    <div class="section-header">
+      <div class="section-number">6</div>
+      <h2>Funções de Ativação</h2>
+    </div>
+
+    <p>A função de ativação define <strong>como a saída do neurônio será interpretada</strong> e influencia o tipo de problema que o modelo resolve.</p>
+
+    <h3>Função Step (Degrau)</h3>
+    <div class="card highlight">
+      <div class="card-title">Perceptron Clássico</div>
+      <div class="formula">f(x) = 0, se x &lt; 0 &nbsp;&nbsp;|&nbsp;&nbsp; f(x) = 1, se x ≥ 0</div>
+      <p><strong>Características:</strong> Simula uma decisão simples, saída binária (0 ou 1), fácil de interpretar.</p>
+      <p><strong>Limitação crucial:</strong> <strong>Não é diferenciável</strong> — ou seja, não possui derivada. Isso impede o uso de métodos de otimização baseados em gradiente (como backpropagation). Por isso, o MLP usa outras funções.</p>
+    </div>
+
+    <h3>Função Sigmoide</h3>
+    <div class="card highlight">
+      <div class="card-title">A mais importante para a prova</div>
+      <div class="formula">σ(x) = 1 / (1 + e⁻ˣ) → saída entre 0 e 1</div>
+      <p><strong>Características:</strong> Saída contínua entre 0 e 1, curva em formato de "S", <strong>diferenciável</strong> (permite backpropagation).</p>
+      <p><strong>Aplicações:</strong> Classificação binária, camadas de saída em modelos probabilísticos.</p>
+      <p><strong>Valores-chave para memorizar:</strong> σ(0) = 0.5 · Valores negativos → saída &lt; 0.5 · Valores positivos → saída &gt; 0.5</p>
+    </div>
+
+    <h3>Função Tangente Hiperbólica (tanh)</h3>
+    <div class="card highlight">
+      <div class="card-title">Evolução da Sigmoide</div>
+      <div class="formula">f(x) = tanh(x) → saída entre −1 e +1</div>
+      <p><strong>Vantagens sobre a sigmoide:</strong> centrada em zero (facilita aprendizado), convergência mais rápida em alguns cenários, melhor propagação de gradientes.</p>
+    </div>
+
+    <h3>Tabela Completa de Funções de Ativação</h3>
+    <div class="table-wrapper">
+      <table>
+        <tr>
+          <th>Função</th>
+          <th>Fórmula / Saída</th>
+          <th>Uso Principal</th>
+          <th>Diferenciável?</th>
+        </tr>
+        <tr>
+          <td><strong>Step (Degrau)</strong></td>
+          <td>0 ou 1 (binário)</td>
+          <td>Perceptron clássico</td>
+          <td><span class="badge badge-red">Não</span></td>
+        </tr>
+        <tr>
+          <td><strong>Sigmoid</strong></td>
+          <td>1 / (1 + e⁻ˣ) → (0, 1)</td>
+          <td><span class="badge badge-purple">Classificação binária</span></td>
+          <td><span class="badge badge-green">Sim</span></td>
+        </tr>
+        <tr>
+          <td><strong>Tanh</strong></td>
+          <td>tanh(x) → (−1, 1)</td>
+          <td><span class="badge badge-purple">Camadas ocultas</span></td>
+          <td><span class="badge badge-green">Sim</span></td>
+        </tr>
+        <tr>
+          <td><strong>ReLU</strong></td>
+          <td>max(0, x)</td>
+          <td><span class="badge badge-green">Camadas ocultas MLP</span></td>
+          <td><span class="badge badge-green">Sim*</span></td>
+        </tr>
+        <tr>
+          <td><strong>Softmax</strong></td>
+          <td>Vetor de probabilidades (soma = 1)</td>
+          <td><span class="badge badge-red">Classificação multiclasse</span></td>
+          <td><span class="badge badge-green">Sim</span></td>
+        </tr>
+        <tr>
+          <td><strong>Linear</strong></td>
+          <td>f(x) = x (identidade)</td>
+          <td><span class="badge badge-yellow">Regressão</span></td>
+          <td><span class="badge badge-green">Sim</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>Cálculo Prático: Sigmoid</h3>
+    <p>Dados: w₁=0.4, w₂=0.6, b=−0.5, x₁=1, x₂=0</p>
+    <div class="calc-step">
+      <div class="step-label">Passo 1 — Soma ponderada</div>
+      u = (0.4×1) + (0.6×0) + (−0.5) = 0.4 − 0.5 = <strong>−0.1</strong>
+    </div>
+    <div class="calc-step">
+      <div class="step-label">Passo 2 — Aplicar sigmoide</div>
+      σ(−0.1) = 1 / (1 + e⁰·¹) ≈ 1 / (1 + 1.1052) ≈ 1 / 2.1052 ≈ <strong>0.4750</strong>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 7 — NEW: DEEP DIVE FROM AULA 2 -->
+  <div class="section" id="s7">
+    <div class="section-header">
+      <div class="section-number">7</div>
+      <h2>Feedforward, Backpropagation &amp; Gradiente Descendente</h2>
+    </div>
+
+    <h3>Fluxo Completo de Treinamento</h3>
+    <div class="step-flow">
+      <div class="step-box">Inicializa pesos<br><small style="color:var(--text-muted)">aleatoriamente</small></div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Calcula saídas<br><small style="color:var(--text-muted)">feedforward</small></div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Calcula erro<br><small style="color:var(--text-muted)">função de custo</small></div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Atualiza pesos<br><small style="color:var(--text-muted)">backprop + gradiente</small></div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Erro pequeno?<br><small style="color:var(--accent2)">Sim → FIM</small><br><small style="color:var(--accent3)">Não → volta</small></div>
+    </div>
+
+    <h3>Feedforward (Propagação Direta)</h3>
+    <div class="card highlight">
+      <div class="card-title">O que faz</div>
+      <p>É o processo de <strong>propagação para frente</strong>: a entrada percorre a rede camada por camada (entrada → ocultas → saída). Em cada neurônio:</p>
+      <ol>
+        <li>Calcula a soma ponderada: <code>u = Σ wᵢ·xᵢ + b</code></li>
+        <li>Aplica a função de ativação: <code>y = f(u)</code></li>
+        <li>A saída de uma camada torna-se <strong>entrada da próxima</strong></li>
+      </ol>
+      <p><strong>Importante:</strong> O feedforward <strong>NÃO altera pesos</strong>. Ele apenas calcula a saída.</p>
+    </div>
+
+    <h3>Função de Erro (Loss Function)</h3>
+    <p>Mede <strong>quão diferente</strong> está a saída da rede em relação ao valor esperado. Recebe a saída prevista e o valor desejado, produzindo um número que representa o erro.</p>
+    <div class="formula">E = ½(d − y)² &nbsp;&nbsp;&nbsp; (Erro Quadrático Médio — MSE)</div>
+
+    <h3>Backpropagation</h3>
+    <div class="card important">
+      <div class="card-title">O "mensageiro do erro"</div>
+      <p>Após calcular a saída (feedforward), o erro é propagado <strong>da camada de saída de volta</strong> para as camadas anteriores. Usando a <strong>Regra da Cadeia</strong>, o algoritmo calcula proporcionalmente quanto cada neurônio das camadas ocultas contribuiu para o erro total.</p>
+      <p>O backpropagation calcula os <strong>gradientes</strong> — vetores de derivadas parciais do erro em relação a cada peso.</p>
+    </div>
+
+    <h3>Gradiente Descendente</h3>
+    <div class="card success">
+      <div class="card-title">O "motor" do aprendizado</div>
+      <p>Algoritmo de otimização que usa os gradientes calculados pelo backpropagation para <strong>ajustar os pesos na direção oposta ao gradiente</strong>, minimizando a função de perda.</p>
+      <div class="formula">w_novo = w − η · ∇E(w)</div>
+      <p>Onde η é a <strong>taxa de aprendizagem</strong> (o tamanho do "passo").</p>
+    </div>
+
+    <h3>Analogia da Montanha</h3>
+    <div class="card warning">
+      <div class="card-title">💡 Entenda a intuição</div>
+      <p>Imagine que o gráfico do erro forma uma <strong>cadeia de montanhas</strong>. Você foi solto de paraquedas no topo, com os olhos vendados, e precisa chegar ao vale mais profundo (menor erro).</p>
+      <p><strong>Como descer?</strong> Você tateia o chão. Se sente que sobe para a direita, dá um passo para a esquerda. A inclinação que você sente é o <strong>gradiente</strong>. A descida do gradiente é o algoritmo que calcula essa inclinação e dá o passo correto.</p>
+      <p><strong>Backpropagation</strong> = o radar que calcula o mapa de inclinações para todos os neurônios.</p>
+      <p><strong>Gradiente descendente</strong> = o motor que usa esse mapa para dar o passo em direção ao vale.</p>
+    </div>
+
+    <h3>No gráfico do Gradiente Descendente</h3>
+    <ul>
+      <li><strong>Eixo vertical:</strong> valor da função de perda (erro)</li>
+      <li><strong>Eixo horizontal:</strong> valores dos pesos</li>
+      <li><strong>Direção oposta ao gradiente:</strong> porque o gradiente aponta para a subida mais íngreme; para minimizar o erro, andamos na direção contrária</li>
+      <li><strong>Mínimo local:</strong> ponto onde o erro é menor que nos vizinhos, mas não necessariamente o menor global</li>
+      <li><strong>Mínimo global:</strong> o ponto com o menor erro possível — o "vale mais profundo"</li>
+    </ul>
+
+    <h3>Comparação Rápida</h3>
+    <div class="comparison-grid">
+      <div class="comparison-card">
+        <div class="emoji">➡️</div>
+        <h4>Feedforward</h4>
+        <p>Calcula a saída<br>(entrada → saída)<br><strong>Não altera pesos</strong></p>
+      </div>
+      <div class="comparison-card">
+        <div class="emoji">⬅️</div>
+        <h4>Backpropagation</h4>
+        <p>Calcula os gradientes<br>(saída → entrada)<br><strong>Não altera pesos</strong></p>
+      </div>
+      <div class="comparison-card">
+        <div class="emoji">⚙️</div>
+        <h4>Grad. Descendente</h4>
+        <p>Usa os gradientes para<br>ajustar os pesos<br><strong>ALTERA os pesos!</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 8 — NEW -->
+  <div class="section" id="s8">
+    <div class="section-header">
+      <div class="section-number">8</div>
+      <h2>Convergência e Estratégias de Atualização</h2>
+    </div>
+
+    <h3>Convergência da Rede</h3>
+    <div class="card highlight">
+      <div class="card-title">Quando a rede "aprendeu"</div>
+      <p>A convergência é o momento em que a rede neural "aprendeu" o máximo que pode. Sinais de convergência:</p>
+      <ul>
+        <li>O gráfico de erro para de despencar e se torna uma <strong>linha plana</strong></li>
+        <li>O gradiente se <strong>aproxima de zero</strong></li>
+        <li>Os pesos param de sofrer atualizações significativas</li>
+      </ul>
+    </div>
+
+    <h3>Estratégias de Atualização dos Pesos</h3>
+    <div class="table-wrapper">
+      <table>
+        <tr>
+          <th>Estratégia</th>
+          <th>Quando atualiza</th>
+          <th>Observação</th>
+        </tr>
+        <tr>
+          <td><strong>Estocástica (SGD)</strong></td>
+          <td>Após <strong>cada entrada</strong> individual</td>
+          <td>Rápida, mas ruidosa</td>
+        </tr>
+        <tr>
+          <td><strong>Mini-batch</strong></td>
+          <td>Após um <strong>lote</strong> (16 a 256 entradas)</td>
+          <td>Equilíbrio entre velocidade e estabilidade</td>
+        </tr>
+        <tr>
+          <td><strong>Batch</strong></td>
+          <td>Após <strong>todo o dataset</strong></td>
+          <td>Estável, mas lento</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3>O Hiperespaço</h3>
+    <p>Redes neurais modernas têm milhares, milhões ou até bilhões de pesos. Isso significa que a "montanha de erro" tem muitas dimensões — um <strong>hiperespaço</strong> (espaço vetorial com mais de 3 dimensões). Os gráficos 2D e 3D que vemos são simplificações para visualização, mas os mesmos princípios de gradiente e otimização se aplicam em qualquer número de dimensões.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 9 — KERAS -->
+  <div class="section" id="s9">
+    <div class="section-header">
+      <div class="section-number">9</div>
+      <h2>Keras na Prática (Aula 3)</h2>
+    </div>
+
+    <h3>Pipeline Completo</h3>
+    <div class="step-flow">
+      <div class="step-box">Definir<br>problema</div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Dividir<br>treino/teste</div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Modelar<br>Sequential</div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Compilar<br>compile()</div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Treinar<br>fit()</div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Avaliar<br>evaluate()</div>
+      <span class="step-arrow">→</span>
+      <div class="step-box">Prever<br>predict()</div>
+    </div>
+
+    <h3>Compilação: compile()</h3>
+    <div class="table-wrapper">
+      <table>
+        <tr><th>Componente</th><th>O que faz</th><th>Exemplos</th></tr>
+        <tr><td><strong>Otimizador</strong></td><td>Como a rede aprende (implementa gradiente descendente)</td><td><code>SGD</code>, <code>Adam</code></td></tr>
+        <tr><td><strong>Função de perda</strong></td><td>Mede o erro do modelo</td><td><code>binary_crossentropy</code>, <code>sparse_categorical_crossentropy</code>, <code>mse</code></td></tr>
+        <tr><td><strong>Métricas</strong></td><td>Acompanha o desempenho</td><td><code>accuracy</code></td></tr>
+      </table>
+    </div>
+
+    <div class="card important">
+      <div class="card-title">⚠ Loss vs Métrica</div>
+      <p>A <strong>loss</strong> é o que o treinamento tenta <strong>minimizar diretamente</strong>. A <strong>métrica</strong> é uma forma mais intuitiva de <strong>acompanhar o desempenho</strong> (ex: acurácia). Loss é para o algoritmo, métrica é para o humano.</p>
+    </div>
+
+    <h3>Tipo de Problema → Ativação → Loss</h3>
+    <div class="table-wrapper">
+      <table>
+        <tr><th>Tipo</th><th>Ativação Saída</th><th>Função de Perda</th></tr>
+        <tr><td>Classificação binária</td><td><strong>sigmoid</strong></td><td><code>binary_crossentropy</code></td></tr>
+        <tr><td>Classificação multiclasse</td><td><strong>softmax</strong></td><td><code>sparse_categorical_crossentropy</code></td></tr>
+        <tr><td>Regressão</td><td><strong>linear</strong></td><td><code>mse</code></td></tr>
+      </table>
+    </div>
+
+    <h3>fit() vs evaluate() vs predict()</h3>
+    <div class="comparison-grid">
+      <div class="comparison-card">
+        <h4>fit()</h4>
+        <p>Treina a rede<br><strong>ALTERA pesos</strong></p>
+      </div>
+      <div class="comparison-card">
+        <h4>evaluate()</h4>
+        <p>Mede desempenho no teste<br><strong>NÃO altera pesos</strong></p>
+      </div>
+      <div class="comparison-card">
+        <h4>predict()</h4>
+        <p>Faz previsões<br><strong>NÃO altera pesos</strong></p>
+      </div>
+    </div>
+
+    <h3>Código Exemplo: MLP para Iris</h3>
+    <pre><span class="comment"># 1. Importar</span>
+<span class="keyword">from</span> tensorflow <span class="keyword">import</span> keras
+<span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_iris
+<span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split
+<span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> MinMaxScaler
+
+<span class="comment"># 2. Carregar e dividir dados</span>
+iris = load_iris()
+X_treino, X_teste, y_treino, y_teste = train_test_split(
+    iris.data, iris.target, test_size=<span class="number">0.2</span>, stratify=iris.target)
+
+<span class="comment"># 3. Normalizar</span>
+scaler = MinMaxScaler()
+X_treino = scaler.fit_transform(X_treino)
+X_teste = scaler.transform(X_teste)
+
+<span class="comment"># 4. Modelar a rede</span>
+mlp = keras.Sequential([
+    keras.layers.InputLayer(input_shape=(<span class="number">4</span>,)),
+    keras.layers.Dense(<span class="number">512</span>, activation=<span class="string">'relu'</span>),
+    keras.layers.Dense(<span class="number">3</span>, activation=<span class="string">'softmax'</span>)
+])
+
+<span class="comment"># 5. Compilar</span>
+mlp.compile(optimizer=<span class="string">'adam'</span>,
+            loss=<span class="string">'sparse_categorical_crossentropy'</span>,
+            metrics=[<span class="string">'accuracy'</span>])
+
+<span class="comment"># 6. Treinar</span>
+mlp.fit(X_treino, y_treino, epochs=<span class="number">100</span>, validation_split=<span class="number">0.2</span>)
+
+<span class="comment"># 7. Avaliar</span>
+loss, acc = mlp.evaluate(X_teste, y_teste)
+
+<span class="comment"># 8. Prever</span>
+probabilidades = mlp.predict(X_teste)</pre>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 10 — ALL EXERCISES INCLUDING EX 7 -->
+  <div class="section" id="s10">
+    <div class="section-header">
+      <div class="section-number">10</div>
+      <h2>Exercícios Resolvidos (Completo)</h2>
+    </div>
+
+    <h3>Exercício 1 — Dataset Gato/Cão</h3>
+    <p><strong>a)</strong> Entradas: <strong>Peso</strong> e <strong>Comprimento da cauda</strong></p>
+    <p><strong>b)</strong> Saída desejada: <strong>Classe</strong> (Gato ou Cão)</p>
+    <p><strong>c)</strong> Aprendizado <strong>supervisionado</strong> (pois os dados possuem rótulos/classes).</p>
+
+    <h3>Exercício 2 — Cálculo com Perceptron</h3>
+    <p>Dados: w₁=0.5, w₂=0.3, b=−0.4</p>
+    <p><strong>a)</strong> Perceptron com 2 entradas (x₁, x₂), pesos (0.5, 0.3) e bias (−0.4).</p>
+    <p><strong>b)</strong> Fórmula: <code>u = 0.5·x₁ + 0.3·x₂ + (−0.4)</code> — Precisa de valores de x₁ e x₂ para calcular.</p>
+    <p><strong>c)</strong> Se u ≥ 0 → classe 1. Se u &lt; 0 → classe 0.</p>
+
+    <h3>Exercício 3 — Separação Linear</h3>
+    <p>Classe A: (1,1), (2,1), (1,2) | Classe B: (4,4), (5,4), (4,5)</p>
+    <p><strong>a)</strong> <strong>Sim</strong>, é possível separar com uma reta — as classes estão bem separadas no espaço.</p>
+    <p><strong>b)</strong> Uma reta como <code>x₂ = −x₁ + 5</code> separaria os pontos.</p>
+
+    <h3>Exercício 4 — Por que o Perceptron não resolve XOR?</h3>
+    <p>Porque o XOR <strong>não é linearmente separável</strong>. Os pontos de classes diferentes estão "cruzados" no espaço — (0,0)→0 e (1,1)→0 estão em diagonais opostas a (0,1)→1 e (1,0)→1. Nenhuma reta consegue dividi-los. O Perceptron só aprende fronteiras lineares.</p>
+
+    <h3>Exercício 5 — Arquitetura de Rede</h3>
+    <p><strong>a)</strong> <strong>3 camadas</strong> (entrada, oculta e saída)</p>
+    <p><strong>b)</strong> Entrada→Oculta: 2 × 3 = <strong>6 pesos</strong></p>
+    <p><strong>c)</strong> Oculta→Saída: 3 × 1 = <strong>3 pesos</strong></p>
+
+    <h3>Exercício 6 — Neurônio com Sigmoid</h3>
+    <p>w₁=0.4, w₂=0.6, b=−0.5, x₁=1, x₂=0</p>
+    <div class="calc-step">
+      <div class="step-label">Soma ponderada</div>
+      u = 0.4(1) + 0.6(0) − 0.5 = <strong>−0.1</strong>
+    </div>
+    <div class="calc-step">
+      <div class="step-label">Sigmoide</div>
+      σ(−0.1) = 1/(1 + e⁰·¹) ≈ <strong>0.4750</strong>
+    </div>
+
+    <h3>Exercício 7 — Feedforward Completo na MLP (Slide 17, Aula 2)</h3>
+    <div class="card success">
+      <div class="card-title">🆕 Exercício novo — baseado na aula 2</div>
+      <p>A rede do slide 17 tem: <strong>2 entradas</strong> → <strong>3 neurônios ocultos</strong> → <strong>1 neurônio de saída</strong>, com função sigmoide em todas as camadas.</p>
+      <p>Terceira entrada da tabela XOR: <strong>x₁ = 1, x₂ = 0</strong> (classe desejada = 1)</p>
+    </div>
+
+    <p>Pesos da camada oculta (entrada → oculta):</p>
+    <div class="table-wrapper">
+      <table>
+        <tr><th></th><th>w de x₁</th><th>w de x₂</th></tr>
+        <tr><td><strong>Neurônio 1</strong></td><td>−0.424</td><td>0.358</td></tr>
+        <tr><td><strong>Neurônio 2</strong></td><td>−0.740</td><td>−0.577</td></tr>
+        <tr><td><strong>Neurônio 3</strong></td><td>−0.961</td><td>−0.469</td></tr>
+      </table>
+    </div>
+
+    <p>Pesos da camada de saída (oculta → saída): w₇ = −0.017, w₈ = −0.893, w₉ = 0.148</p>
+
+    <h4>Passo 1 — Soma ponderada na camada oculta</h4>
+    <div class="calc-step">
+      <div class="step-label">Neurônio 1</div>
+      u₁ = 1 × (−0.424) + 0 × 0.358 = <strong>−0.424</strong>
+    </div>
+    <div class="calc-step">
+      <div class="step-label">Neurônio 2</div>
+      u₂ = 1 × (−0.740) + 0 × (−0.577) = <strong>−0.740</strong>
+    </div>
+    <div class="calc-step">
+      <div class="step-label">Neurônio 3</div>
+      u₃ = 1 × (−0.961) + 0 × (−0.469) = <strong>−0.961</strong>
+    </div>
+
+    <h4>Passo 2 — Função de ativação (sigmoide) na camada oculta</h4>
+    <div class="calc-step">
+      <div class="step-label">Neurônio 1</div>
+      σ(−0.424) = 1 / (1 + e⁰·⁴²⁴) ≈ 1 / (1 + 1.528) ≈ 1 / 2.528 ≈ <strong>0.3956</strong>
+    </div>
+    <div class="calc-step">
+      <div class="step-label">Neurônio 2</div>
+      σ(−0.740) = 1 / (1 + e⁰·⁷⁴⁰) ≈ 1 / (1 + 2.096) ≈ 1 / 3.096 ≈ <strong>0.3230</strong>
+    </div>
+    <div class="calc-step">
+      <div class="step-label">Neurônio 3</div>
+      σ(−0.961) = 1 / (1 + e⁰·⁹⁶¹) ≈ 1 / (1 + 2.614) ≈ 1 / 3.614 ≈ <strong>0.2768</strong>
+    </div>
+
+    <h4>Passo 3 — Soma ponderada na camada de saída</h4>
+    <div class="calc-step">
+      <div class="step-label">Neurônio de saída</div>
+      u_saída = 0.3956 × (−0.017) + 0.3230 × (−0.893) + 0.2768 × 0.148<br>
+      = (−0.00673) + (−0.28843) + (0.04097)<br>
+      = <strong>−0.25419</strong>
+    </div>
+
+    <h4>Passo 4 — Função de ativação (sigmoide) na saída</h4>
+    <div class="calc-step">
+      <div class="step-label">Saída final</div>
+      σ(−0.25419) = 1 / (1 + e⁰·²⁵⁴) ≈ 1 / (1 + 1.2895) ≈ 1 / 2.2895 ≈ <strong>0.437</strong>
+    </div>
+
+    <h4>Passo 5 — Cálculo do erro</h4>
+    <div class="calc-step">
+      <div class="step-label">Erro</div>
+      e = d − y = 1 − 0.437 = <strong>0.563</strong>
+    </div>
+    <p>A rede produziu 0.437 quando deveria produzir 1 — erro de 0.563. Isso mostra que os pesos iniciais (aleatórios) estão longe do ideal e precisam ser ajustados pelo <strong>backpropagation + gradiente descendente</strong> ao longo de muitas épocas.</p>
+
+    <div class="card warning">
+      <div class="card-title">💡 Conferência com os slides</div>
+      <p>No slide 20 da aula 2, a tabela mostra os resultados para todas as 4 entradas do XOR. A terceira entrada (1,0) produz saída 0.437 e erro 0.563, confirmando nosso cálculo. As saídas iniciais (antes do treinamento) ficam todas em torno de 0.4–0.5 porque os pesos ainda são aleatórios — a rede ainda não aprendeu nada!</p>
+    </div>
+
+    <h3>Exercício 8 — Gradiente Descendente</h3>
+    <p><strong>a)</strong> Eixo vertical: <strong>valor da função de perda</strong> (erro)</p>
+    <p><strong>b)</strong> Eixo horizontal: <strong>valores dos pesos</strong></p>
+    <p><strong>c)</strong> Caminha na direção oposta porque o gradiente aponta para a <strong>subida mais íngreme</strong>; para minimizar, vamos na direção contrária</p>
+    <p><strong>d)</strong> Mínimo local: ponto onde o erro é <strong>menor que nos vizinhos</strong>, mas não necessariamente o menor possível (global)</p>
+
+    <h3>Exercício 9 — Feedforward vs Backpropagation vs Gradiente</h3>
+    <p><strong>a) Feedforward:</strong> Propagação para frente — dados percorrem a rede da entrada à saída para gerar previsões. <strong>Não altera pesos.</strong></p>
+    <p><strong>b) Backpropagation:</strong> Propagação do erro para trás — calcula os gradientes (contribuição de cada peso para o erro) usando a Regra da Cadeia. <strong>Não altera pesos.</strong></p>
+    <p><strong>c) Gradiente Descendente:</strong> Algoritmo de otimização — usa os gradientes para <strong>ajustar os pesos</strong> na direção oposta ao gradiente, minimizando o erro. <strong>Este é o que efetivamente altera os pesos!</strong></p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SECTION 11 — DICAS -->
+  <div class="section" id="s11">
+    <div class="section-header">
+      <div class="section-number">11</div>
+      <h2>Dicas para a Prova</h2>
+    </div>
+
+    <div class="card important">
+      <div class="card-title">🎯 Temas com Alta Probabilidade de Cobrança</div>
+      <ul>
+        <li>Cálculo de <strong>soma ponderada</strong> + aplicação de função de ativação (step e sigmoid)</li>
+        <li>Diferença entre <strong>feedforward, backpropagation e gradiente descendente</strong></li>
+        <li>O que é <strong>separabilidade linear</strong> e por que o Perceptron falha no XOR</li>
+        <li>Contagem de <strong>pesos e camadas</strong> em uma rede</li>
+        <li><strong>Feedforward completo</strong> em uma MLP (como o Exercício 7!)</li>
+        <li>Pipeline Keras: <strong>modelar → compilar → treinar → avaliar → prever</strong></li>
+        <li>Qual <strong>função de ativação + função de perda</strong> usar para cada tipo de problema</li>
+        <li>Diferença entre <strong>loss e métrica</strong></li>
+        <li>Diferença entre <strong>fit(), evaluate() e predict()</strong></li>
+        <li>Importância da <strong>divisão treino/teste</strong> (generalização vs memorização)</li>
+        <li>Conferência de <strong>Dartmouth (1956)</strong> — nascimento da IA</li>
+        <li><strong>Lei do Tudo ou Nada</strong> — potencial de ação dos neurônios</li>
+        <li>Estratégias de atualização: <strong>estocástica, mini-batch e batch</strong></li>
+        <li><strong>Convergência</strong> da rede — quando o erro estabiliza</li>
+        <li>Função step <strong>não é diferenciável</strong> → não permite backpropagation</li>
+      </ul>
+    </div>
+
+    <div class="card warning">
+      <div class="card-title">💡 Dicas Estratégicas</div>
+      <ul>
+        <li>Treine cálculos manuais de feedforward com <strong>múltiplas camadas</strong> (como o Ex. 7)</li>
+        <li>Saiba fazer o cálculo da sigmoide: σ(x) = 1/(1+e⁻ˣ)</li>
+        <li>Memorize: σ(0) = 0.5, valores negativos → &lt;0.5, positivos → &gt;0.5</li>
+        <li>Memorize a tabela: tipo de problema → ativação da saída → loss</li>
+        <li>Entenda por que a função step NÃO serve para MLP (não é diferenciável)</li>
+        <li>Saiba explicar a analogia da montanha para o gradiente descendente</li>
+        <li>Saiba explicar por que dividimos dados em treino e teste (generalização)</li>
+      </ul>
+    </div>
+
+    <div class="card success">
+      <div class="card-title">✅ Checklist de Estudo</div>
+      <ul>
+        <li>☐ Sei calcular soma ponderada + step function</li>
+        <li>☐ Sei calcular soma ponderada + sigmoide</li>
+        <li>☐ Sei fazer feedforward completo em uma MLP de 3 camadas</li>
+        <li>☐ Sei contar pesos e camadas de uma rede</li>
+        <li>☐ Sei explicar feedforward vs backprop vs gradiente descendente</li>
+        <li>☐ Sei por que XOR não é linearmente separável</li>
+        <li>☐ Sei a tabela problema → ativação → loss</li>
+        <li>☐ Sei a diferença entre loss e métrica</li>
+        <li>☐ Sei o pipeline completo do Keras</li>
+        <li>☐ Sei explicar convergência e mínimo local vs global</li>
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
